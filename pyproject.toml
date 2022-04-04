@@ -1,0 +1,23 @@
+[tool.poetry]
+authors = ["Iven Winkelmann <ivenw@users.noreply.github.com>"]
+description = ""
+license = "MIT"
+name = "sb-beer-scrape"
+version = "0.1.0"
+
+[tool.poetry.dependencies]
+alive-progress = "^2.4.1"
+beautifulsoup4 = "^4.10.0"
+pandas = "^1.4.1"
+playwright = "^1.20.1"
+pydantic = "^1.9.0"
+python = ">= 3.10, < 4"
+numpy = "^1.22.3"
+
+[tool.poetry.dev-dependencies]
+ipykernel = "^6.9.2"
+pandas-stubs = "^1.2.0"
+
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.0.0"]
