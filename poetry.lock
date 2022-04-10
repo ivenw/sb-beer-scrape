@@ -541,7 +541,7 @@ python-versions = ">=3.7"
 [metadata]
 lock-version = "1.1"
 python-versions = ">= 3.10, < 4"
-content-hash = "57fdb154049702d9d0aa25ba2973f698b0a2b9a538f4b3491f031c9b382ec7db"
+content-hash = "370d51258bc19bbfb930cfbfc92600a9b8974dd3c2c5984d3c8cecc07b0498db"
 
 [metadata.files]
 about-time = [

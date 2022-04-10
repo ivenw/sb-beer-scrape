@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from parser import CssSelectorParser, Item
 from bs4 import Tag
+import pandas as pd
 
 
 BEER_CONTAINER: str = ".css-fmawtr.e1yt52hj6"
@@ -60,22 +61,52 @@ class Beer(Item):
 
 
 class BeerParser(CssSelectorParser):
-    def parse_container(self, container: Tag) -> Beer:
+    def __init__(self):
+        self.beers = []
+
+    def parse_container(self, container: Tag) -> None:
         beer = {}
         for key, selector in BEER_SELECTORS.items():
             try:
                 selection = container.select(selector)
                 if key == "picture_url":
                     beer[key] = selection[0].get("src")
-                elif key == "id":
-                    beer[key] = selection[0].get_text()
                 elif key in ["bitterness", "body", "sweetness"]:
                     beer[key] = selection[0].get("type")
-                elif key == "food_recommendation":
-                    beer[key] = [food.get_text() for food in selection]
-
+                # elif key == "food_recommendation":
+                #     beer[key] = [food.get_text() for food in selection]
                 else:
-                    beer[key] = selection[0].get_text().strip()
+                    beer[key] = selection[0].get_text()
             except:
                 beer[key] = None
-        return Beer(**beer)
+        self.beers.append(Beer(**beer))
+
+    def turn_items_to_frame(self) -> None:
+        self.data = pd.DataFrame(self.beers)
+
+    def clean_up_frame(self) -> None:
+        self.data["id"] = self.data["id"].str.replace("Nr ", "").astype(int)
+        self.data["price"] = (
+            self.data["price"]
+            .str.replace(":", ".")
+            .str.replace("*", "")
+            .str.replace("-", "0")
+            .astype(float, errors="ignore")
+        )
+        self.data["abv"] = (
+            self.data["abv"]
+            .str.replace(" %", "")
+            .str.replace('"', "")
+            .str.replace(",", ".")
+            .astype(float)
+        )
+        self.data["volume"] = self.data["volume"].str.replace(" ml", "").astype(int)
+        self.data["bitterness"] = (
+            self.data["bitterness"].str.replace("taste-clock-", "").astype(int)
+        )
+        self.data["body"] = (
+            self.data["body"].str.replace("taste-clock-", "").astype(int)
+        )
+        self.data["sweetness"] = (
+            self.data["sweetness"].str.replace("taste-clock-", "").astype(int)
+        )

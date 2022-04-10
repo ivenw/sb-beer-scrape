@@ -27,9 +27,9 @@ def main():
     soup = parser.turn_page_into_soup(page_source)
 
     containers = soup.select(BEER_CONTAINER)
-    data = parser.parse_containers(containers, BeerParser().parse_container)
+    data = parser.parse_containers(containers, BeerParser())
 
-    pd.DataFrame(data).to_csv("data/beer_data.csv", index=False)
+    data.to_csv("data/beer_data.csv", index=False)
 
 
 if __name__ == "__main__":

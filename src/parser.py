@@ -12,7 +12,17 @@ class Item(Protocol):
 
 
 class CssSelectorParser(Protocol):
-    def parse_container(self, container: Tag) -> ModelMetaclass:
+    def __init__(self):
+        self.beers: list
+        self.data: pd.DataFrame
+
+    def parse_container(self, container: Tag) -> None:
+        ...
+
+    def turn_items_to_frame(self) -> None:
+        ...
+
+    def clean_up_frame(self) -> None:
         ...
 
 
@@ -29,13 +39,15 @@ def turn_page_into_soup(page_source: str) -> bs:
 
 
 def parse_containers(
-    containers: ResultSet[Tag], parser: Callable
-) -> list[ModelMetaclass]:
-    items = []
+    containers: ResultSet[Tag], parser: CssSelectorParser
+) -> pd.DataFrame:
     for container in alive_it(containers, title="Parsing containers..."):
-        items.append(parser(container))
+        parser.parse_container(container)
 
-    return items
+    parser.turn_items_to_frame()
+    parser.clean_up_frame()
+
+    return parser.data
 
 
 def items_to_dataframe(items: dict[str, str | None]) -> pd.DataFrame:
