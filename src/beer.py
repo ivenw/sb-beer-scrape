@@ -23,23 +23,6 @@ BEER_SELECTORS: dict[str, str] = {
     "food_recommendation": ".css-1pnp1bx.eof5z0g0",
 }
 
-# class Beer(BaseModel):
-#     id: int | None = None
-#     url: str | None = None
-#     picture_url: str | None = None
-#     brewery: str | None = None
-#     name: str | None = None
-#     style: str | None = None
-#     country_of_origin: str | None = None
-#     volume: int | None = None
-#     abv: float | None = None
-#     price: float | None = None
-#     bitterness: int | None = None
-#     body: int | None = None
-#     sweetness: int | None = None
-#     description: str | None = None
-#     food_recommendation: list[str] | None = None
-
 
 @dataclass
 class Beer(Item):
