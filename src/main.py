@@ -1,4 +1,3 @@
-from cProfile import run
 import parser
 import page_loader
 import pathlib
